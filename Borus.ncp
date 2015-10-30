@@ -1,0 +1,50 @@
+<Project>
+  <Name>Borus</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Class Diagrams</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>ATM</Name>
+        <Access>Public</Access>
+        <Location left="41" top="75" />
+        <Size width="228" height="179" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">double cashBalance</Member>
+        <Member type="Field">int accountNum</Member>
+        <Member type="Field">Account currentAccount</Member>
+        <Member type="Method">public double getBalance()</Member>
+        <Member type="Method">public void setBalance(double newBalance)</Member>
+        <Member type="Method">public void verifyAccount(int pin)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Account</Name>
+        <Access>Public</Access>
+        <Location left="351" top="47" />
+        <Size width="217" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int PAN</Member>
+        <Member type="Field">int PIN</Member>
+        <Member type="Field">double balance</Member>
+        <Member type="Method">public double getBalance()</Member>
+        <Member type="Method">public void setBalance(double newBalance)</Member>
+        <Member type="Method">public boolean verifyPIN(int pin)</Member>
+        <Member type="Constructor">public Account()</Member>
+        <Member type="Method">public void withdraw(double amount)</Member>
+        <Member type="Method">public void deposit(double amount)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>1..1</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
