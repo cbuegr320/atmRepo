@@ -13,4 +13,14 @@ public class ATM {
 		// David Larsen
 		return "Please take your ATM card.\nThank you.";
 	}
+	
+	public String balanceUpdateText(){
+		//Screen 11
+		// Manuel Puentes
+		
+		//Possibly could call or could be called by the update balance function, haven't decided yet
+		
+		return "Your balance is being updated. Please take cash from dispenser.";
+		
+	}
 }
