@@ -1,5 +1,10 @@
 package ATM;
 
+/* LOG FOR MODIFICATIONS
+ * 			WHO			DATE		DETAILS OF CHANGE
+ * 
+ */
+
 public class ATM {
 
 	
