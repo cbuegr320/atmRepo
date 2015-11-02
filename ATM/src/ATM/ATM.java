@@ -2,7 +2,7 @@ package ATM;
 
 /* LOG FOR MODIFICATIONS
  * 			WHO			DATE		DETAILS OF CHANGE
- * 
+ * 		Emanuel Macias	11/2/2015	Added Screen 14 Outline
  */
 
 public class ATM {
@@ -27,5 +27,16 @@ public class ATM {
 		
 		return "Your balance is being updated. Please take cash from dispenser.";
 		
+	}
+	
+	public String printReceipt(){
+		//Screen 14
+		//Emanuel Macias
+		
+		//Prints Customer Receipt with new balance and asks user 
+		//if they want to initiate a new transaction
+		
+		
+		return "Your new balance is being printed. Would you like to make another transaction?";
 	}
 }
