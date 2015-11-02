@@ -3,10 +3,12 @@ package ATM;
 /* LOG FOR MODIFICATIONS
  * 			WHO			DATE		DETAILS OF CHANGE
  * 		Emanuel Macias	11/2/2015	Added Screen 14 Outline
+ * 		Casey/ Ryan		11/2/2015	Added getBalance()
  */
 
 public class ATM {
 
+	double balance = 0;
 	
 	public String tenDollarNoteWarning() {
 		// Screen 9
@@ -39,4 +41,10 @@ public class ATM {
 		
 		return "Your new balance is being printed. Would you like to make another transaction?";
 	}
+	
+	public double getBalance(){
+		// Casey and Ryan
+		return balance;
+	}
+	
 }
