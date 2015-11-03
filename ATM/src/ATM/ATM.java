@@ -3,7 +3,7 @@ package ATM;
 /* LOG FOR MODIFICATIONS
  * 			WHO			DATE		DETAILS OF CHANGE
  * 		Emanuel Macias	11/2/2015	Added Screen 14 Outline
- * 		Casey/ Ryan		11/2/2015	Added getBalance()
+ * 		Casey/ Ryan		11/2/2015	Added double balance and getBalance()
  */
 
 public class ATM {
