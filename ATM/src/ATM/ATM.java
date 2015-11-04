@@ -4,11 +4,52 @@ package ATM;
  * 			WHO			DATE		DETAILS OF CHANGE
  * 		Emanuel Macias	11/2/2015	Added Screen 14 Outline
  * 		Casey/ Ryan		11/2/2015	Added double balance and getBalance()
+ *		Cameron Geiger	11/3/2015	Added verifyAccount and invalidAccountNumber functions
  */
 
 public class ATM {
 
 	double balance = 0;
+	
+	public void verifyAccount(int tryPAN) throws SQLException {
+		//Screen 1
+		//Cameron Geiger
+		
+		//Establish connection with database.
+		Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost", "root", "");
+		//Create the vehicle for passing SQL queries.
+		Statement statement = databaseConnection.createStatement();
+		//A pseudo array for any retrieved results
+		ResultSet panResult = statement.executeQuery("SELECT * FROM myatmschema.account");
+		
+		boolean panFound = false;
+		int fetchedPAN;
+		
+		//While there are still results and the PAN has not been found.
+		while(panResult.next() && !panFound) {			
+			fetchedPAN = panResult.getInt("PAN");
+			if(tryPAN == fetchedPAN) {
+				panFound = true;
+				Account account = new Account();
+			}
+		}
+		
+		if(!panFound) {
+			invalidAccountNumber();
+		}
+	}
+
+	public String invalidAccountNumber() {
+		//Screen 4
+		//Cameron Geiger
+		return "Invalid ATM card or account number.";
+	}
+	
+	public String insufficientFunds() {
+		//Screen 8
+		//Cameron Geiger
+		
+	}
 	
 	public String tenDollarNoteWarning() {
 		// Screen 9
