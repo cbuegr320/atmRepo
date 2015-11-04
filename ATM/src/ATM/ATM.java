@@ -11,34 +11,56 @@ import java.sql.*;
 
 public class ATM {
 
-	double balance = 0;
+	static int PAN;
+	static int PIN;
+	double atmBalance = 0;
+	static double userBalance = 0;
 	
-	public void verifyAccount(int tryPAN) throws SQLException {
-		//Screen 1
-		//Cameron Geiger
-		
-		//Establish connection with database.
-		Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost", "root", "");
-		//Create the vehicle for passing SQL queries.
-		Statement statement = databaseConnection.createStatement();
-		//A pseudo array for any retrieved results
-		ResultSet panResult = statement.executeQuery("SELECT * FROM myatmschema.account");
-		
-		boolean panFound = false;
-		int fetchedPAN;
-		
-		//While there are still results and the PAN has not been found.
-		while(panResult.next() && !panFound) {			
-			fetchedPAN = panResult.getInt("PAN");
-			if(tryPAN == fetchedPAN) {
-				panFound = true;
-				Account account = new Account();
+	public static void main(String[] args) throws SQLException{
+		getAccountInfo(12345);
+		if(isCorrectPIN(4))
+			System.out.println("SUCCESSSSSSSSSSS!!!!!");
+		else
+			System.out.println("FAILLLLL!");
+	}
+	
+	
+	static public void getAccountInfo(int userPAN) throws SQLException{
+		Connection myConnection = null;
+		PreparedStatement myStatement = null;
+		ResultSet myResultSet = null;
+		try {
+			myConnection = DriverManager.getConnection("jdbc:mysql://localhost","student","student");
+			
+			// Prepare statement
+			// This will select a PAN and find the BALANCE that is associated with
+			// that PAN from the database.
+			myStatement = myConnection.prepareStatement("SELECT PAN, PIN, BALANCE FROM MyATMSchema.MyATMTable WHERE PAN="+ userPAN);
+			
+			// Execute SQL query
+			myResultSet = myStatement.executeQuery();
+			
+			// Process Result Set
+			// "PAN" "PIN" and "BALANCE" are the names of the columns in your database.
+			// we assign the variables "thePAN" "thePIN" and "theBalance" to these database columns.
+			while (myResultSet.next()) {
+				PAN = myResultSet.getInt("PAN");
+				PIN = myResultSet.getInt("PIN");
+				userBalance = myResultSet.getInt("BALANCE");
+				System.out.println("Swag PAN: "+ PAN + " PIN: " + PIN + " Balance: " + userBalance);
 			}
+		} 
+		catch (Exception exc) {
+			exc.printStackTrace();
+		} 
+		finally {
+			close (myStatement, myResultSet);
 		}
-		
-		if(!panFound) {
-			invalidAccountNumber();
-		}
+	}	
+	
+	
+	public static boolean isCorrectPIN(int tempPIN){
+		return PIN == tempPIN;
 	}
 
 	public String invalidAccountNumber() {
@@ -168,7 +190,7 @@ public class ATM {
 	public double getBalance(){
 		// Casey and Ryan
 		// TODO: Link this to the SQL server
-		return balance;
+		return atmBalance;
 	}
 	
 }
