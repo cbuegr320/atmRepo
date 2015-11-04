@@ -129,6 +129,7 @@ public class ATM {
 	
 	public void deposit(int userPAN, int amount) throws SQLException {
 		updateBalance(userPAN, -amount);
+		atmBalance += amount;
 	}
 	
 	
