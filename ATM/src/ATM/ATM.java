@@ -11,14 +11,15 @@ import java.sql.*;
 
 public class ATM {
 
-	const int ATM_ID = 1;
+	final int ATM_ID = 1;
 	
-	double atmBalance = 0;
+	int atmBalance = 0;
+	int userBalance = 0;
 	
 	public void verifyAccount(int tryPAN) throws SQLException {
 		//Screen 1
 		//Cameron Geiger
-		
+	
 		//Establish connection with database.
 		Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost", "root", "");
 		//Create the vehicle for passing SQL queries.
@@ -77,118 +78,34 @@ public class ATM {
 	}
 	
 	public static void updateBalance(int userPAN, int userWithdrawal) throws SQLException{
-		// Screen 11
-		// Manuel Puentes
-		Connection accountConnection = null; //used for the user of the atm
-		Statement accountStatement = null;
-		ResultSet accountResultSet = null;
 		
-		Connection atmConnection = null; // used for the atm itself
-		Statement atmStatement = null;
-		ResultSet atmResultSet = null;
-		
-		Connection atmGetBalance = null;
-		Statement atmBalanceStatement = null;
-		ResultSet atmBalanceResult = null;
-		
-		try{
-			//1. Get a connection to database
-			accountConnection = DriverManager.getConnection("jdbc:mysql://localhost", "student","student");
-			atmConnection = DriverManager.getConnection("jdbc:mysql://localhost", "student","student");
-			atmGetBalance = DriverManager.getConnection("jdbc:mysql://localhost", "student","student");
-			
-			//System.out.println("Database connection successful\n");
-			
-			//2. Create a statement
-			accountStatement = accountConnection.createStatement();
-			atmStatement = atmConnection.createStatement();
-			atmBalanceStatement = atmGetBalance.createStatement();
-			
-			//Call helper method to display the ATM user's row information before update
-			//System.out.println("Before the update...");
-			
-			
-			
-			//***********************************************************************************//
-			//***********************************************************************************//
-			int ATMUserPAN = userPAN;  
-			int AtmId = 1;			
-			//***********************************************************************************//
-			//***********************************************************************************//
-			
-			accountStatement.executeUpdate("UPDATE myatmschema.myatmtable " +
-									  "SET BALANCE =  BALANCE - " + userWithdrawal + " " +
-									  "WHERE PAN = " + ATMUserPAN);
-			atmStatement.executeUpdate("UPDATE myatmschema.myatmmachine " +
-					  "SET atm_balance = atm_balance -" + userWithdrawal + " " +
-					  "WHERE  atm_id = " + AtmId);
-			
-			atmBalanceStatement.executeQuery("");
-		
-			//3. Execute SQL query
-			accountResultSet = accountStatement.executeQuery("SELECT * FROM myatmschema.myatmtable ORDER BY PAN");
-			atmResultSet = atmStatement.executeQuery("SELECT * FROM myatmschema.myatmmachine ORDER BY atm_id");
-			
-		}catch(Exception exc){
-			
-				exc.printStackTrace();
-				
-		}finally{
-			close(accountConnection, accountStatement, accountResultSet);
-			close(atmConnection, atmStatement, atmResultSet);
-		}
 	}
-	private static void close(Connection accountConnection, Statement accountStatement, ResultSet accountResultSet) throws SQLException{
-		if(accountResultSet != null){
-			accountResultSet.close();
-		}
-		if(accountStatement != null){
-			accountStatement.close();
-		}
-		if(accountConnection != null){
-			accountConnection.close();
-		}
-	}
-	
-	//Modified helper method for closing connection, statement, and result sets
-	//This is also known as a function overload
-	private static void close(Statement accountStatement, ResultSet accountResultSet) throws SQLException{
-		close(null, accountStatement,accountResultSet);
-	}
-	
-	public String printReceipt(){
-		//Screen 14
-		//Emanuel Macias
-		
-		//Prints Customer Receipt with new balance and asks user 
-		//if they want to initiate a new transaction
-		
-		
-		return "Your new balance is being printed. Would you like to make another transaction?";
-	}
-	
-	public double getBalance()
+
+	// Casey and Ryan
+	// Screen (?)
+	// Obtains the balance of the machine, stores it in the variable atmBalance, and returns the
+	// value that was obtained.
+	public double getBalance() throws SQLException 
 	{
-		// Casey and Ryan
-		// Screen (?)
-		
 		//Establish connection with database.
 		Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost", "root", "");
+		
 		//Create the vehicle for passing SQL queries.
 		Statement statement = databaseConnection.createStatement();
+		
 		//A pseudo array for any retrieved results
 		ResultSet balanceResult = statement.executeQuery("SELECT * FROM myatmschema.myatmmachine");
 
 		// Variable to keep track of our result(s)
 		int fetchedBAL = 0;
-		
+				
 		// Cycle through results and update our balance variable
 		while(balanceResult.next()) {			
 			fetchedBAL = balanceResult.getInt("atm_id");
 			
-			// If the atm id matches our desired one, update the balance.
+			// If the atm id matches our desired one, update the balance variable.
 			if(fetchedBAL == ATM_ID) {
-				atmBalance = balanceResult.getDouble("atmbalance");
+				atmBalance = balanceResult.getInt("atmbalance");
 				break;
 			}
 		}
@@ -197,6 +114,22 @@ public class ATM {
 		return atmBalance;
 	}
 	
+	public boolean withdraw(int userPAN, int amount) throws SQLException {
+
+		getBalance();
+		
+		if (atmBalance >= userBalance)
+		{
+			updateBalance(userPAN, amount);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public void deposit(int userPAN, int amount) throws SQLException {
+		updateBalance(userPAN, -amount);
+	}
 	
 	
 }
