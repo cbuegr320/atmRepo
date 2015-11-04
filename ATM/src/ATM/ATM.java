@@ -1,5 +1,7 @@
 package ATM;
 
+import com.mysql.jdbc.Statement;
+
 /* LOG FOR MODIFICATIONS
  * 			WHO			DATE		DETAILS OF CHANGE
  * 		Emanuel Macias	11/2/2015	Added Screen 14 Outline
@@ -9,10 +11,64 @@ package ATM;
 
 public class ATM {
 
-	double balance = 0;
+	int PAN;
+	int PIN;
+	double atmBalance = 0;
+	double userBalance = 0;
 	
-	public void verifyAccount(int tryPAN) throws SQLException {
-		//Screen 1
+	
+	public void getAccountInfo(int userPAN){
+		try {
+			// Prepare statement
+			// This will select a PAN and find the BALANCE that is associated with
+			// that PAN from the database.
+			myStatement = myConnection.prepareStatement("SELECT PAN, PIN, BALANCE FROM MyATMSchema.MyATMTable WHERE PAN="+ userPAN);
+			myStatement.setInt(1, userPAN);
+			// Execute SQL query
+			myResultSet = myStatement.executeQuery();
+			// Process Result Set
+			// "PAN" "PIN" and "BALANCE" are the names of the columns in your database.
+			// we assign the variables "thePAN" "thePIN" and "theBalance" to these database columns.
+			while (myResultSet.next()) {
+				PAN = myResultSet.getInt("PAN");
+				PIN = myResultSet.getInt("PIN");
+				balance = myResultSet.getInt("BALANCE");
+				//System.out.println("Swag PAN: "+ PAN + " PIN: " + PIN + " Balance: " + balance);
+			}
+		} 
+		catch (Exception exc) {
+			exc.printStackTrace();
+		} 
+		finally {
+			close (myStatement, myResultSet);
+		}
+	}
+	
+	
+	
+	
+	public boolean isCorrectPAN(int tempPAN){
+		return PAN == tempPAN;
+	} 
+		
+	
+	
+	
+	public boolean isCorrectPIN(int tempPIN){
+		return PIN == tempPIN;
+	}
+
+	
+	
+	
+	public String invalidAccountNumber() {
+		//Screen 4
+		//Cameron Geiger
+		return "Invalid ATM card or account number.";
+	}
+	
+	public String insufficientFunds(Account account) {
+		//Screen 8
 		//Cameron Geiger
 		
 		//Establish connection with database.
@@ -20,35 +76,9 @@ public class ATM {
 		//Create the vehicle for passing SQL queries.
 		Statement statement = databaseConnection.createStatement();
 		//A pseudo array for any retrieved results
-		ResultSet panResult = statement.executeQuery("SELECT * FROM myatmschema.account");
+		ResultSet balanceResult = statement.executeQuery("SELECT balance FROM myatmschema.account")
 		
-		boolean panFound = false;
-		int fetchedPAN;
-		
-		//While there are still results and the PAN has not been found.
-		while(panResult.next() && !panFound) {			
-			fetchedPAN = panResult.getInt("PAN");
-			if(tryPAN == fetchedPAN) {
-				panFound = true;
-				Account account = new Account();
-			}
-		}
-		
-		if(!panFound) {
-			invalidAccountNumber();
-		}
-	}
-
-	public String invalidAccountNumber() {
-		//Screen 4
-		//Cameron Geiger
-		return "Invalid ATM card or account number.";
-	}
-	
-	public String insufficientFunds() {
-		//Screen 8
-		//Cameron Geiger
-		
+		return "Insufficient funds. Please enter a new amount."
 	}
 	
 	public String tenDollarNoteWarning() {
