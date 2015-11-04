@@ -5,6 +5,7 @@ package ATM;
  * 		Emanuel Macias	11/2/2015	Added Screen 14 Outline
  * 		Casey/ Ryan		11/2/2015	Added double balance and getBalance()
  *		Cameron Geiger	11/3/2015	Added verifyAccount and invalidAccountNumber functions
+ *		Ryan			11/4/2015 	Added some comments on the getBalance function
  */
 
 public class ATM {
@@ -85,6 +86,7 @@ public class ATM {
 	
 	public double getBalance(){
 		// Casey and Ryan
+		// TODO: Link this to the SQL server
 		return balance;
 	}
 	
