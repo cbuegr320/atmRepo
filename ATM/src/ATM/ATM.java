@@ -11,7 +11,9 @@ import java.sql.*;
 
 public class ATM {
 
-	double balance = 0;
+	const int ATM_ID = 1;
+	
+	double atmBalance = 0;
 	
 	public void verifyAccount(int tryPAN) throws SQLException {
 		//Screen 1
@@ -165,10 +167,36 @@ public class ATM {
 		return "Your new balance is being printed. Would you like to make another transaction?";
 	}
 	
-	public double getBalance(){
+	public double getBalance()
+	{
 		// Casey and Ryan
-		// TODO: Link this to the SQL server
-		return balance;
+		// Screen (?)
+		
+		//Establish connection with database.
+		Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost", "root", "");
+		//Create the vehicle for passing SQL queries.
+		Statement statement = databaseConnection.createStatement();
+		//A pseudo array for any retrieved results
+		ResultSet balanceResult = statement.executeQuery("SELECT * FROM myatmschema.myatmmachine");
+
+		// Variable to keep track of our result(s)
+		int fetchedBAL = 0;
+		
+		// Cycle through results and update our balance variable
+		while(balanceResult.next()) {			
+			fetchedBAL = balanceResult.getInt("atm_id");
+			
+			// If the atm id matches our desired one, update the balance.
+			if(fetchedBAL == ATM_ID) {
+				atmBalance = balanceResult.getDouble("atmbalance");
+				break;
+			}
+		}
+		
+		// Return the updated balance
+		return atmBalance;
 	}
+	
+	
 	
 }
