@@ -14,16 +14,7 @@ public class ATM {
 	static int PAN;
 	static int PIN;
 	double atmBalance = 0;
-	static double userBalance = 0;
-	
-	public static void main(String[] args) throws SQLException{
-		getAccountInfo(12345);
-		if(isCorrectPIN(4))
-			System.out.println("SUCCESSSSSSSSSSS!!!!!");
-		else
-			System.out.println("FAILLLLL!");
-	}
-	
+	static double userBalance = 0;	
 	
 	static public void getAccountInfo(int userPAN) throws SQLException{
 		Connection myConnection = null;
