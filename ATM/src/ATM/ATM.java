@@ -1,6 +1,8 @@
 package ATM;
 import java.sql.*;
 
+import com.mysql.jdbc.Statement;
+
 /* LOG FOR MODIFICATIONS
  * 			WHO			DATE		DETAILS OF CHANGE
  * 		Emanuel Macias	11/2/2015	Added Screen 14 Outline
@@ -11,6 +13,7 @@ import java.sql.*;
 
 public class ATM {
 
+<<<<<<< HEAD
 	static int PAN;
 	static int PIN;
 	double atmBalance = 0;
@@ -32,22 +35,43 @@ public class ATM {
 		try {
 			myConnection = DriverManager.getConnection("jdbc:mysql://localhost","student","student");
 			
+=======
+	int PAN;
+	int PIN;
+	double atmBalance = 0;
+	double userBalance = 0;
+	
+	
+	public void getAccountInfo(int userPAN){
+		try {
+>>>>>>> 7c5129497d520f520a7355d977c854faff33cc85
 			// Prepare statement
 			// This will select a PAN and find the BALANCE that is associated with
 			// that PAN from the database.
 			myStatement = myConnection.prepareStatement("SELECT PAN, PIN, BALANCE FROM MyATMSchema.MyATMTable WHERE PAN="+ userPAN);
+<<<<<<< HEAD
 			
 			// Execute SQL query
 			myResultSet = myStatement.executeQuery();
 			
+=======
+			myStatement.setInt(1, userPAN);
+			// Execute SQL query
+			myResultSet = myStatement.executeQuery();
+>>>>>>> 7c5129497d520f520a7355d977c854faff33cc85
 			// Process Result Set
 			// "PAN" "PIN" and "BALANCE" are the names of the columns in your database.
 			// we assign the variables "thePAN" "thePIN" and "theBalance" to these database columns.
 			while (myResultSet.next()) {
 				PAN = myResultSet.getInt("PAN");
 				PIN = myResultSet.getInt("PIN");
+<<<<<<< HEAD
 				userBalance = myResultSet.getInt("BALANCE");
 				System.out.println("Swag PAN: "+ PAN + " PIN: " + PIN + " Balance: " + userBalance);
+=======
+				balance = myResultSet.getInt("BALANCE");
+				//System.out.println("Swag PAN: "+ PAN + " PIN: " + PIN + " Balance: " + balance);
+>>>>>>> 7c5129497d520f520a7355d977c854faff33cc85
 			}
 		} 
 		catch (Exception exc) {
@@ -56,24 +80,59 @@ public class ATM {
 		finally {
 			close (myStatement, myResultSet);
 		}
+<<<<<<< HEAD
 	}	
 	
 	
 	public static boolean isCorrectPIN(int tempPIN){
+=======
+	}
+	
+	
+	
+	
+	public boolean isCorrectPAN(int tempPAN){
+		return PAN == tempPAN;
+	} 
+		
+	
+	
+	
+	public boolean isCorrectPIN(int tempPIN){
+>>>>>>> 7c5129497d520f520a7355d977c854faff33cc85
 		return PIN == tempPIN;
 	}
 
+	
+	
+	
 	public String invalidAccountNumber() {
 		//Screen 4
 		//Cameron Geiger
 		return "Invalid ATM card or account number.";
 	}
 	
+<<<<<<< HEAD
 //	public String insufficientFunds() {
 //		//Screen 8
 //		//Cameron Geiger
 //		
 //	}
+=======
+	public String insufficientFunds(Account account) {
+		//Screen 8
+		//Cameron Geiger
+		
+		//Establish connection with database.
+		Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost", "root", "");
+		//Create the vehicle for passing SQL queries.
+		Statement statement = databaseConnection.createStatement();
+		//A pseudo array for any retrieved results
+		ResultSet balanceResult = statement.executeQuery("SELECT balance FROM myatmschema.account")
+		
+		return "Insufficient funds. Please enter a new amount."
+	}
+>>>>>>> 7c5129497d520f520a7355d977c854faff33cc85
 	
 	public String tenDollarNoteWarning() {
 		// Screen 9
